@@ -51,7 +51,7 @@ class MathHelper(object):
         a, b = self._plug_with_values(roots, value1, value2)
         self.print(fmtr.eq('A', fmt(a)))
         self.print(fmtr.eq('B', fmt(b)))
-        self.print(self._fmt_final_formula(a, b, r1, r2), False)
+        self.print(self._fmt_final_formula(a, b, r1, r2))
         return fmt(a), fmt(b)
 
     def _fmt_final_formula(self, a, b, r1, r2):
