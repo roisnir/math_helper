@@ -3,6 +3,7 @@ from numbers import Real
 from typing import Tuple, Type
 from equation_formatter.eq_formatter import EqFormatter
 from equation_formatter.libre_eq_formatter import LibreEqFormatter as Libre
+from equation_formatter.word_eq_formatter import WordEqFormatter
 
 
 class MathHelper(object):
@@ -119,4 +120,4 @@ class MathHelper(object):
 
 
 if __name__ == '__main__':
-    MathHelper().find_function((2, 8), (0, 1), (1, 2))
+    MathHelper(formatter=WordEqFormatter).find_function((2, 8), (0, 1), (1, 2))
