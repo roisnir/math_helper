@@ -63,7 +63,7 @@ class LibreEqFormatter(EqFormatter):
 
     @classmethod
     def comma(cls, *args, sep=',` ') -> str:
-        return f',{sep} '.join(args)
+        return sep.join(args)
 
     @classmethod
     def big_comma(cls, *args: str, sep=',~ ') -> str:

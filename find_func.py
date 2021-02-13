@@ -43,8 +43,8 @@ class MathHelper(object):
             fmtr.eq(fmtr.subscript('t', '1'), fmt(r1)),
             fmtr.eq(fmtr.subscript('t', '2'), fmt(r2))
         ))
-        v1, n1 = value1
-        v2, n2 = value2
+        n1, v1 = value1
+        n2, v2 = value2
         self.print(self._fmt_a_b_eq(n1, r1, r2, v1))
         self.print(self._fmt_a_b_eq(n2, r1, r2, v2))
         a, b = self._plug_with_values(roots, value1, value2)
