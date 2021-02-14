@@ -3,7 +3,6 @@ from .eq_formatter import EqFormatter
 
 class WordEqFormatter(EqFormatter):
     """
-    Tzuri will implement
     """
     @classmethod
     def subscript(cls, base: str, sub) -> str:

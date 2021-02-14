@@ -1,14 +1,15 @@
+import argparse
 import numpy as np
 from numbers import Real
 from typing import Tuple, Type
 from equation_formatter.eq_formatter import EqFormatter
-from equation_formatter.libre_eq_formatter import LibreEqFormatter as Libre
 from equation_formatter.word_eq_formatter import WordEqFormatter
+from equation_formatter.libre_eq_formatter import LibreEqFormatter
 
 
 class MathHelper(object):
 
-    def __init__(self, formatter: Type[EqFormatter] = Libre, verbose=True):
+    def __init__(self, formatter: Type[EqFormatter] = LibreEqFormatter, verbose=True):
         super().__init__()
         self.formatter = formatter
         self.verbose = verbose
@@ -51,7 +52,8 @@ class MathHelper(object):
         a, b = self._plug_with_values(roots, value1, value2)
         self.print(fmtr.eq('A', fmt(a)))
         self.print(fmtr.eq('B', fmt(b)))
-        self.print(self._fmt_final_formula(a, b, r1, r2))
+        self.print(self._fmt_final_formula(a, b, r1, r2), False)
+        print()
         return fmt(a), fmt(b)
 
     def _fmt_final_formula(self, a, b, r1, r2):
@@ -78,21 +80,22 @@ class MathHelper(object):
         fmtr = self.formatter
         fmt = self.formatter.format
         return fmtr.eq(
-            fmtr.subscript('a', str(n)),
+            fmtr.subscript('a', fmt(n)),
             fmtr.add(
-                'A ' + fmtr.pow(fmt(r1), str(n)),
-                'B ' + fmtr.pow(fmt(r2), str(n)),
+                'A ' + fmtr.pow(fmt(r1), fmt(n)),
+                'B ' + fmtr.pow(fmt(r2), fmt(n)),
             ),
             fmt(v)
         )
 
     def _fmt_char_func(self, c1, c2):
         fmtr = self.formatter
+        fmt = self.formatter.format
         characteristic = fmtr.eq(
             fmtr.add(
                 fmtr.pow('t', '2'),
-                f'-{c1}',
-                f'-{c2}'
+                f'-{fmt(c1)}t',
+                f'-{fmt(c2)}'
             ),
             '0'
         )
@@ -119,5 +122,28 @@ class MathHelper(object):
         return tuple((x for x in np.linalg.inv([[r1**n1, r2**n1], [r1**n2, r2**n2]]).dot([v1, v2])))
 
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("c1", help="coefficient of a_n-1",
+                        type=float)
+    parser.add_argument("c2", help="coefficient of a_n-2",
+                        type=float)
+    parser.add_argument("n1", help="index of a specific a_n",
+                        type=float)
+    parser.add_argument("a_n1", help="value of a specific a_n",
+                        type=float)
+    parser.add_argument("n2", help="index of a specific a_n",
+                        type=float)
+    parser.add_argument("a_n2", help="value of a specific a_n",
+                        type=float)
+    parser.add_argument("-t", "--type", choices=('word', 'libre'), default='word')
+    args = parser.parse_args()
+    MathHelper(formatter=WordEqFormatter if args.type == 'word' else LibreEqFormatter).find_function(
+        (args.c1, args.c2),
+        (args.n1, args.a_n1),
+        (args.n2, args.a_n2)
+    )
+
+
 if __name__ == '__main__':
-    MathHelper(formatter=WordEqFormatter).find_function((2, 8), (0, 1), (1, 2))
+    main()
