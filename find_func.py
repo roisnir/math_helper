@@ -20,7 +20,7 @@ class MathHelper(object):
 
     def find_function(self, coefficients: Tuple[Real, Real], value1: Tuple[int, Real], value2: Tuple[int, Real]):
         """
-        on an recursive ratio like:
+        on a recursive ratio like:
         a_n = x a_{n-1} + y a_{n-2}
 
         and a pair of known bases are:
